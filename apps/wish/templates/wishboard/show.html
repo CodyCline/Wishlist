@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Destination</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    </head>
+    <body>
+        <form action="{% url 'login_index' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Home">
+        </form>
+        <!---->
+        <form action="{% url 'login_logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Created By</th>
+                <th>Made On</th>
+            </tr>
+
+            <tr>
+                <td>{{ items.description }}</td>
+                <td>{{ items.item_id.name }}</td>
+                <td>{{ items.created_at }}</td>
+            </tr>
+        </table>
+        <!---->
+        <ul>
+            {% for joiner in items.make_item_id.all  %}
+                {% if joiner.name != items.make_item_id.name %}
+                    <li>People who favorited this item</li>
+                    <li> {{joiner.name}}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </body>
+</html>

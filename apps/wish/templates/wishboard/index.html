@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    </head>
+    <body>
+        <form action="{% url 'login_logout' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+
+        <h3>Hello, {{ loggedin.name }}!</h3>
+        <h4>Your Wishlist</h4>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Added By</th>
+                <th>Made On</th>
+                <th>Action</th>
+            </tr>
+
+            <!-- BELOW ARE TWO FOR LOOPS ONE IS FOR YOUR USER GENERATED WISHLIST ITEM THE OTHER IS THE JOIN ONE -->
+            {% for item in loggedin.user_item.all %}
+                <tr>
+                    <td><a href="{% url 'item_show' id=item.id %}">{{ item.description }}</a></td>
+                    <td>{{ item.item_id.name }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                        <form action="{% url 'remove_item' id=item.id %}" method="POST">{% csrf_token %}<input type="submit" value="Delete"></form>
+                    </td>
+                </tr>
+            {% endfor %}
+            <!-- -->
+            {% for item in loggedin.make_item.all  %}
+                <tr>
+                    <td><a href="{% url 'item_show' id=item.id %}">{{ item.description }}</a></td>
+                    <td>{{ creator.item_id.name }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'travels_unjoin' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="item" value="{{ item.id}}">
+                            <input type="hidden" name="user" value="{{ loggedin.id }}">
+                            <input type="submit" value="Remove From Favorites">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <form action="{% url 'create_wish' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Expand Wishlist">
+        </form>
+
+        <h4>Other user(s) wishlisted items</h4>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Name</th>
+                <th>Created On</th>
+                <th>Action</th>
+            </tr>
+            {% for item in all_items %}
+                <tr>
+                    <td><a href="{% url 'item_show' id=item.id %}">{{ item.description }}</td>
+                    <td>{{ item.item_id.name }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>
+                        <form action="{% url 'travels_join' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="item" value="{{ item.id}}">
+                            <input type="hidden" name="user" value="{{ loggedin.id }}">
+                            <input type="submit" value="Favorite">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+
+        </table>
+
+    </body>
+</html>

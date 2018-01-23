@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Create Plan</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    </head>
+    <body>
+        <form action="{% url 'login_index' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Home">
+        </form>
+        <!---->
+        <form action="{% url 'login_logout' %}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Logout">
+        </form>
+        <!---->
+        {% if messages %}
+            <ul class="list-group">
+                <li>ATTENTION REQUIRED!</li>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <!---->
+        <h2>Add an Item</h2>
+        <!---->
+        <form action="{% url 'item_create_wish' %}" method="post">
+        {% csrf_token %}
+            <label>Item Name:</label>
+            <input type="text" name="item_desired">
+            <input type="submit" value="Add">
+        </form>
+
+    </body>
+</html>

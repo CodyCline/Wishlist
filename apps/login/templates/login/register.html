@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Register</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    </head>
+    <body>
+        <div class="register">
+      	<h1>Register</h1>
+            <form action="{% url 'login_registration' %}" method="POST" class="form-horizontal">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Name" required="required" />
+                <input type="text" name="username" placeholder="Username" required="required" />
+          	    <input type="text" name="email" placeholder="Email" required="required" />
+                <label>Date Hired</label>
+          	    <input type="date" name="date_hired" placeholder="Date Hired" required="required" />
+                <p><small>Password should contain at least 6 characters</small></p>
+                <input type="password" name="password" placeholder="Password" required="required" />
+                <input type="password" name="pw_confirm" placeholder="Confirm Password" required="required" />
+                <input type="submit" value="Join!">
+            </form>
+            <p>Already a Wishboard User? <a href="{% url 'login_index' %}"> Log In</a></p>
+            {% if messages %}
+                <ul>
+                    <p>Attention: {% for message in messages %} {{ message }}  {% endfor %} </p>
+                </ul>
+            {% endif %}
+        </div>
+
+    </body>
+</html>

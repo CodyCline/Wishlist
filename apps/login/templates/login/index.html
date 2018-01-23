@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Travel Buddy</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    </head>
+    <body>
+        <div class="login">
+        	<h2>Wishboard Platform</h2>
+          <form action="{% url 'login_login' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="email" placeholder="Email" required="required" />
+            <input type="password" name="password" placeholder="Password" required="required" />
+            <input type="submit" value="Let me in!">
+          </form>
+          <p>Register Here<a href="{% url 'login_register' %}"> Sign up today!</a></p>
+
+          <!-- return error messages -->
+          {% if messages %}
+          <ul class="list-group">
+            <p>Attention:{% for message in messages %} {{ message }}  {% endfor %}</p>
+          </ul>
+          {% endif %}
+          <!-- end error messages -->
+        </div>
+
+    </body>
+</html>
